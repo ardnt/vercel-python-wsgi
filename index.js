@@ -5,7 +5,12 @@ const download = require('@vercel/build-utils/fs/download'); // eslint-disable-l
 const glob = require('@vercel/build-utils/fs/glob'); // eslint-disable-line import/no-extraneous-dependencies
 const { createLambda } = require('@vercel/build-utils/lambda'); // eslint-disable-line import/no-extraneous-dependencies
 
-const { log, pip, python } = require('./build-utils');
+const {
+  log,
+  pip,
+  python,
+  apt,
+} = require('./build-utils');
 
 
 exports.config = {
@@ -47,6 +52,14 @@ exports.build = async ({ files, entrypoint, config }) => {
   await pip.install(pipPath, srcDir, __dirname);
 
   log.heading('Installing project requirements');
+  const aptRequirementsTxtPath = apt.findAptRequirements(entrypoint, files);
+  if (aptRequirementsTxtPath) {
+    const aptRequirements = await readFile(
+      aptRequirementsTxtPath,
+      'utf8',
+    ).split('\n');
+    await apt.install(aptRequirements, '-y');
+  }
   const requirementsTxtPath = pip.findRequirements(entrypoint, files);
   if (requirementsTxtPath) {
     await pip.install(pipPath, srcDir, '-r', requirementsTxtPath);
