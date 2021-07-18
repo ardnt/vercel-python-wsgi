@@ -2,7 +2,7 @@ const { createWriteStream } = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
 
-const getWritableDirectory = require('@vercel/build-utils/fs/get-writable-directory.js'); // eslint-disable-line import/no-extraneous-dependencies
+const getWritableDirectory = require('@vercel/build-utils/fs/get-writable-directory'); // eslint-disable-line import/no-extraneous-dependencies
 
 
 async function file(url, fileName) {

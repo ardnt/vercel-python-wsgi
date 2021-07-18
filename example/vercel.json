@@ -1,6 +1,6 @@
 {
     "builds": [{
         "src": "index.py",
-        "use": "@ardnt/vercel-python-wsgi"
+        "use": "@PotatoHD404/vercel-package-installer"
     }]
 }

@@ -1,6 +1,6 @@
-const log = require('./log.js');
-const pip = require('./pip.js');
-const python = require('./python.js');
+const log = require('./log');
+const pip = require('./pip');
+const python = require('./python');
 
 module.exports = {
   log,

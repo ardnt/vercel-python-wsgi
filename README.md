@@ -1,9 +1,9 @@
 # vercel-python-wsgi
 *A Vercel builder for Python WSGI applications*
 
-[![NPM version](https://img.shields.io/npm/v/@ardnt/vercel-python-wsgi.svg)](https://www.npmjs.com/package/@ardnt/vercel-python-wsgi)
-[![Build Status](https://www.travis-ci.com/ardnt/vercel-python-wsgi.svg?branch=main)](https://www.travis-ci.com/ardnt/vercel-python-wsgi)
-[![License](https://img.shields.io/npm/l/@ardnt/vercel-python-wsgi)](https://github.com/ardnt/vercel-python-wsgi/blob/master/LICENSE)
+[![NPM version](https://img.shields.io/npm/v/@PotatoHD404/vercel-package-installer.svg)](https://www.npmjs.com/package/@PotatoHD404/vercel-package-installer)
+[![Build Status](https://www.travis-ci.com/PotatoHD404/vercel-package-installer.svg?branch=main)](https://www.travis-ci.com/PotatoHD404/vercel-package-installer)
+[![License](https://img.shields.io/npm/l/@PotatoHD404/vercel-package-installer)](https://github.com/PotatoHD404/vercel-package-installer/blob/master/LICENSE)
 
 ## Quickstart
 
@@ -19,7 +19,7 @@ Add a `vercel.json` file to the root of your application:
 {
     "builds": [{
         "src": "index.py",
-        "use": "@ardnt/vercel-python-wsgi",
+        "use": "@PotatoHD404/vercel-package-installer",
         "config": { "maxLambdaSize": "15mb" }
     }]
 }
@@ -30,7 +30,7 @@ This configuration is doing a few things in the `"builds"` part:
 1. `"src": "index.py"`
    This tells Now that there is one entrypoint to build for. `index.py` is a
    file we'll create shortly.
-2. `"use": "@ardnt/vercel-python-wsgi"`
+2. `"use": "@PotatoHD404/vercel-package-installer"`
    Tell Now to use this builder when deploying your application
 3. `"config": { "maxLambdaSize": "15mb" }`
    Bump up the maximum size of the built application to accommodate some larger
@@ -124,7 +124,7 @@ configuration:
 {
     "builds": [{
         "src": "index.py",
-        "use": "@ardnt/vercel-python-wsgi"
+        "use": "@PotatoHD404/vercel-package-installer"
     }],
     "routes" : [{
         "src" : "/(.*)", "dest":"/"
@@ -144,7 +144,7 @@ then you can configure it as the entrypoint and adjust routes accordingly:
 {
     "builds": [{
         "src": "vercel_app/wsgi.py",
-        "use": "@ardnt/vercel-python-wsgi"
+        "use": "@PotatoHD404/vercel-package-installer"
     }],
     "routes" : [{
         "src" : "/(.*)", "dest":"/vercel_app/wsgi.py"

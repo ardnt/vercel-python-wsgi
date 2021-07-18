@@ -1,15 +1,15 @@
 const path = require('path');
 const { readFile } = require('fs.promised');
-const getWritableDirectory = require('@vercel/build-utils/fs/get-writable-directory.js'); // eslint-disable-line import/no-extraneous-dependencies
-const download = require('@vercel/build-utils/fs/download.js'); // eslint-disable-line import/no-extraneous-dependencies
-const glob = require('@vercel/build-utils/fs/glob.js'); // eslint-disable-line import/no-extraneous-dependencies
-const { createLambda } = require('@vercel/build-utils/lambda.js'); // eslint-disable-line import/no-extraneous-dependencies
+const getWritableDirectory = require('@vercel/build-utils/fs/get-writable-directory'); // eslint-disable-line import/no-extraneous-dependencies
+const download = require('@vercel/build-utils/fs/download'); // eslint-disable-line import/no-extraneous-dependencies
+const glob = require('@vercel/build-utils/fs/glob'); // eslint-disable-line import/no-extraneous-dependencies
+const { createLambda } = require('@vercel/build-utils/lambda'); // eslint-disable-line import/no-extraneous-dependencies
 
 const { log, pip, python } = require('./build-utils');
 
 
 exports.config = {
-  maxLambdaSize: '5mb',
+  maxLambdaSize: '15mb',
 };
 
 
