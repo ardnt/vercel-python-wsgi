@@ -69,7 +69,7 @@ exports.build = async ({ files, entrypoint, config }) => {
 
   const lambda = await createLambda({
     files: await glob('**', srcDir),
-    handler: 'vercel_python_wsgi.vercel_handler',
+    handler: 'vercel_package_installer.vercel_handler',
     runtime: `${config.runtime || 'python3.6'}`,
     environment: {
       WSGI_APPLICATION: `${wsgiApplication}`,

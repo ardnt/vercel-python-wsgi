@@ -1,4 +1,4 @@
-# vercel-python-wsgi
+# vercel-package-installer
 *A Vercel builder for Python WSGI applications*
 
 [![NPM version](https://img.shields.io/npm/v/@potatohd/vercel-package-installer.svg)](https://www.npmjs.com/package/@potatohd/vercel-package-installer)
@@ -18,7 +18,7 @@ Add a `vercel.json` file to the root of your application:
 {
     "builds": [{
         "src": "index.py",
-        "use": "@potatohd/vercel-package-installer",
+        "use": "@potatohd/vercel-package-installer1",
         "config": { "maxLambdaSize": "15mb" }
     }]
 }
@@ -29,7 +29,7 @@ This configuration is doing a few things in the `"builds"` part:
 1. `"src": "index.py"`
    This tells Now that there is one entrypoint to build for. `index.py` is a
    file we'll create shortly.
-2. `"use": "@potatohd/vercel-package-installer"`
+2. `"use": "@potatohd/vercel-package-installer1"`
    Tell Now to use this builder when deploying your application
 3. `"config": { "maxLambdaSize": "15mb" }`
    Bump up the maximum size of the built application to accommodate some larger
