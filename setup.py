@@ -19,6 +19,6 @@ setup(
     ],
     install_requires=[
         'Werkzeug==1.0.1',
-        'apig-wsgi'
+        # 'apig-wsgi==1.0.0'
     ]
 )

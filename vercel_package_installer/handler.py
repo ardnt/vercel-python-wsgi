@@ -25,7 +25,7 @@ if sys.version_info[0] < 3:
 else:
     from urllib.parse import urlparse, unquote
 
-from apig_wsgi import make_lambda_handler
+# from apig_wsgi import make_lambda_handler
 
 # Set up logging
 root = logging.getLogger()
@@ -131,4 +131,5 @@ def vercel_handler(event, context):
     wsgi_module = import_module(wsgi_module_name)
     application = getattr(wsgi_module, wsgi_app_name)
 
-    return make_lambda_handler(application)
+    return handler(application, event, context)
+    # return make_lambda_handler(application)
