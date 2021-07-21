@@ -12,12 +12,13 @@ with open('package.json') as f:
 """A barebones setup for tests
 """
 setup(
-    name='vercel-package-installer1',
+    name='vercel-package-installer',
     version=version,
     packages=[
-        'vercel_package_installer1'
+        'vercel_package_installer'
     ],
     install_requires=[
         'Werkzeug==1.0.1',
+        'apig-wsgi'
     ]
 )
