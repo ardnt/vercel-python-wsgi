@@ -1,15 +1,20 @@
 const path = require('path');
 const { readFile } = require('fs.promised');
-const getWritableDirectory = require('@vercel/build-utils/fs/get-writable-directory.js'); // eslint-disable-line import/no-extraneous-dependencies
-const download = require('@vercel/build-utils/fs/download.js'); // eslint-disable-line import/no-extraneous-dependencies
-const glob = require('@vercel/build-utils/fs/glob.js'); // eslint-disable-line import/no-extraneous-dependencies
-const { createLambda } = require('@vercel/build-utils/lambda.js'); // eslint-disable-line import/no-extraneous-dependencies
+const getWritableDirectory = require('@vercel/build-utils/fs/get-writable-directory'); // eslint-disable-line import/no-extraneous-dependencies
+const download = require('@vercel/build-utils/fs/download'); // eslint-disable-line import/no-extraneous-dependencies
+const glob = require('@vercel/build-utils/fs/glob'); // eslint-disable-line import/no-extraneous-dependencies
+const { createLambda } = require('@vercel/build-utils/lambda'); // eslint-disable-line import/no-extraneous-dependencies
 
-const { log, pip, python } = require('./build-utils');
+const {
+  log,
+  pip,
+  python,
+  apt,
+} = require('./build-utils');
 
 
 exports.config = {
-  maxLambdaSize: '5mb',
+  maxLambdaSize: '15mb',
 };
 
 
@@ -46,10 +51,21 @@ exports.build = async ({ files, entrypoint, config }) => {
   log.heading('Installing handler');
   await pip.install(pipPath, srcDir, __dirname);
 
-  log.heading('Installing project requirements');
+  log.heading('Running setup script');
+  let setupPath = apt.findRequirements(entrypoint, files);
+  if (setupPath) {
+    await apt.install(setupPath);
+  }
+  log.heading('Running pip script');
   const requirementsTxtPath = pip.findRequirements(entrypoint, files);
   if (requirementsTxtPath) {
     await pip.install(pipPath, srcDir, '-r', requirementsTxtPath);
+  }
+
+  log.heading('Running post-setup script');
+  setupPath = apt.findPostRequirements(entrypoint, files);
+  if (setupPath) {
+    await apt.install(setupPath);
   }
 
   log.heading('Preparing lambda bundle');

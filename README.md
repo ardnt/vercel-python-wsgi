@@ -85,6 +85,16 @@ Be aware that the builder will install `Werkzeug` as a requirement of the
 handler. This can cause issues if your project requires a different version of
 `Werkzeug` than the handler.
 
+Your project may optionally include `setup.sh` or `post-setup.sh` file to declare any
+linux commands you want to execute before and after python dependencies installation, e.g.:
+
+```shell
+# setup.sh
+yum install -y gcc mysql-devel
+
+ln -s /usr/lib64/libmariadbclient.a /usr/lib64/libmariadb.a
+```
+
 
 ## Configuration options
 
@@ -160,6 +170,60 @@ implications on what libaries will be available to you, notably:
 - PostgreSQL, so psycopg2 won't work out of the box
 - MySQL, so MySQL adapters won't work out of the box either
 - Sqlite, so the built-in Sqlite adapter won't be available
+
+### Django MySQL configuration
+
+```shell
+# setup.sh
+yum install -y gcc mysql-devel
+
+ln -s /usr/lib64/libmariadbclient.a /usr/lib64/libmariadb.a
+```
+
+```
+# requirements.txt
+Django
+dj-static
+mysqlclient
+PyMySQL
+```
+
+```json
+// vercel.json
+{
+    "builds": [{
+        "src": "yourapp/wsgi.py",
+        "use": "@ardnt/vercel-python-wsgi",
+        "config": { "maxLambdaSize": "15mb" }
+    }],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "yourapp/wsgi.py"
+        }
+    ]
+}
+```
+
+```python
+# yourapp/__init__.py
+import pymysql
+pymysql.install_as_MySQLdb()
+```
+
+```python
+# yourapp/wsgi.py
+import os
+from dj_static import Cling
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'yourapp.settings')
+
+application = Cling(get_wsgi_application())
+
+```
+
 
 
 ## Contributing
