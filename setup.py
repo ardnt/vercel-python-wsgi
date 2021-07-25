@@ -18,7 +18,6 @@ setup(
         'vercel_package_installer'
     ],
     install_requires=[
-        'Werkzeug==1.0.1',
-        # 'apig-wsgi==1.0.0'
+        'Werkzeug>=2.0.1',
     ]
 )

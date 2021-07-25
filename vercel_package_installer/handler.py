@@ -16,9 +16,8 @@ import sys
 
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
-from werkzeug._compat import (BytesIO, string_types, to_bytes,
-                              wsgi_encoding_dance)
-
+from io import BytesIO
+from werkzeug._internal import _wsgi_encoding_dance, _to_bytes
 if sys.version_info[0] < 3:
     from urllib import unquote
     from urlparse import urlparse
@@ -57,7 +56,7 @@ def handler(app, lambda_event, context):
     if encoding == 'base64':
         body = base64.b64decode(body)
     else:
-        body = to_bytes(body, charset='utf-8')
+        body = _to_bytes(body, charset='utf-8')
 
     environ = {
         'CONTENT_LENGTH': str(len(body)),
@@ -81,8 +80,8 @@ def handler(app, lambda_event, context):
     }
 
     for key, value in environ.items():
-        if isinstance(value, string_types):
-            environ[key] = wsgi_encoding_dance(value)
+        if isinstance(value, str):
+            environ[key] = _wsgi_encoding_dance(value)
 
     for key, value in headers.items():
         key = 'HTTP_' + key.upper().replace('-', '_')

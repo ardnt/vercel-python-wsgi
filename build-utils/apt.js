@@ -4,16 +4,6 @@ const execa = require('execa');
 const log = require('./log');
 
 async function install(scriptPath) {
-  // log.subheading('Updating linux packages');
-  // log.info('Running "apt update"');
-  // try {
-  //   const ret = await execa('apt update -y', { shell: true, stdio: 'inherit' });
-  //   log.info(ret.stdout);
-  // } catch (err) {
-  //   log.error('Failed to run "apt update"');
-  //   throw err;
-  // }
-
   log.subheading('Running setup script');
   log.info(`Running "bash ${scriptPath}"`);
   try {
