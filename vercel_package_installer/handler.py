@@ -13,18 +13,18 @@ import logging
 from importlib import import_module
 import os
 import sys
+from traceback import format_exc
+from .app import application as traceback_app
 
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
 from io import BytesIO
 from werkzeug._internal import _wsgi_encoding_dance, _to_bytes
 if sys.version_info[0] < 3:
-    from urllib import unquote
+    from urllib import unquote, urlencode
     from urlparse import urlparse
 else:
-    from urllib.parse import urlparse, unquote
-
-# from apig_wsgi import make_lambda_handler
+    from urllib.parse import urlparse, unquote, urlencode
 
 # Set up logging
 root = logging.getLogger()
@@ -44,7 +44,7 @@ TEXT_MIME_TYPES = [
 ]
 
 
-def handler(app, lambda_event, context):
+def handler(app, lambda_event, context, error=None):
 
     event = json.loads(lambda_event['body'])
     headers = Headers(event.get('headers', None))
@@ -78,6 +78,9 @@ def handler(app, lambda_event, context):
         'wsgi.url_scheme': headers.get('X-Forwarded-Proto', 'http'),
         'wsgi.version': (1, 0),
     }
+    if error:
+        environ['PATH_INFO'] = '/'
+        environ['QUERY_STRING'] = unquote(urlencode(error))
 
     for key, value in environ.items():
         if isinstance(value, str):
@@ -126,9 +129,14 @@ def vercel_handler(event, context):
     wsgi_app_data = os.environ.get('WSGI_APPLICATION').split('.')
     wsgi_module_name = '.'.join(wsgi_app_data[:-1])
     wsgi_app_name = wsgi_app_data[-1]
-
-    wsgi_module = import_module(wsgi_module_name)
-    application = getattr(wsgi_module, wsgi_app_name)
+    try:
+        wsgi_module = import_module(wsgi_module_name)
+    except Exception:
+        return handler(traceback_app, event, context,
+                       {'traceback': format_exc(), 'error': 'An error has occurred during app importing'})
+        application = getattr(wsgi_module, wsgi_app_name)
+    except Exception:
+        return handler(traceback_app, event, context,
+                       {'traceback': 'Change app name in vercel.json', 'error': 'Wrong application name'})
 
     return handler(application, event, context)
-    # return make_lambda_handler(application)
