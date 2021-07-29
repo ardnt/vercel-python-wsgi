@@ -3,11 +3,11 @@ const execa = require('execa');
 
 const log = require('./log');
 
-async function install(scriptPath) {
+async function install(scriptPath, srcDir) {
   log.subheading('Running install script');
-  log.info(`Running "bash ${scriptPath}"`);
+  log.info(`Running "bash ${scriptPath} ${srcDir}"`);
   try {
-    const ret = await execa('bash', [scriptPath]);
+    const ret = await execa('bash', [scriptPath, srcDir]);
     log.info(ret.stdout);
   } catch (err) {
     log.error();

@@ -9,7 +9,7 @@ const url = 'https://bootstrap.pypa.io/get-pip.py';
 
 async function install(pipPath, srcDir, ...args) {
   log.subheading('Installing python packages');
-  log.info(`Running "pip install -t --recurse-submodules -j4 ${srcDir} ${args.join(' ')}"`);
+  log.info(`Running "pip install -t ${srcDir} ${args.join(' ')}"`);
   try {
     const ret = await execa(pipPath, ['install', '-t', srcDir, ...args]);
     await execa(pipPath, ['uninstall', 'dataclasses', '-y']);

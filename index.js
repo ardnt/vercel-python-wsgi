@@ -10,7 +10,7 @@ const {
   pip,
   python,
   apt,
-  git,
+  // git,
 } = require('./build-utils');
 
 
@@ -20,6 +20,7 @@ exports.config = {
 
 
 exports.build = async ({ files, entrypoint, config }) => {
+  log.info(`Files: ${files}`);
   log.title('Starting build');
   const systemReleaseContents = await readFile(
     path.join('/etc', 'system-release'),
@@ -52,12 +53,12 @@ exports.build = async ({ files, entrypoint, config }) => {
   log.heading('Installing handler');
   await pip.install(pipPath, srcDir, __dirname);
 
-  if (config.includeSubmodules) await git.update(srcDir);
+  // if (config.includeSubmodules) await git.update(srcDir);
 
   log.heading('Running setup script');
   let setupPath = apt.findRequirements(entrypoint, files);
   if (setupPath) {
-    await apt.install(setupPath);
+    await apt.install(setupPath, srcDir);
   }
   log.heading('Running pip script');
   const requirementsTxtPath = pip.findRequirements(entrypoint, files);
@@ -68,7 +69,7 @@ exports.build = async ({ files, entrypoint, config }) => {
   log.heading('Running post-setup script');
   setupPath = apt.findPostRequirements(entrypoint, files);
   if (setupPath) {
-    await apt.install(setupPath);
+    await apt.install(setupPath, srcDir);
   }
 
   log.heading('Preparing lambda bundle');
