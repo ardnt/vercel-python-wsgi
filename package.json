@@ -1,6 +1,6 @@
 {
   "name": "@potatohd/vercel-package-installer1",
-  "version": "1.0.1-dev.15",
+  "version": "1.0.1-dev.31",
   "description": "Linux package installer on Vercel",
   "main": "index.js",
   "repository": {

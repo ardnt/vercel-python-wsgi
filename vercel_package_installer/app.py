@@ -1,11 +1,10 @@
 from werkzeug.wrappers import Request, Response
 
-
 @Request.application
 def application(request):
     traceback = request.args.get('traceback')
     if '_call_with_frames_removed' in traceback:
-        traceback = traceback.split('_call_with_frames_removed')[1]
+        traceback = traceback.split('_call_with_frames_removed')[-1]
         traceback = traceback.replace('/var/task/', '')
         traceback = 'Traceback (most recent call last):' + traceback
     page = '''

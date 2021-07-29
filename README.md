@@ -102,11 +102,11 @@ handler. This can cause issues if your project requires a different version of
 
 ### `runtime`
 
-Select the lambda runtime. Defaults to `python3.6`.
+Select the lambda runtime. Defaults to `python3.8`.
 ```json
 {
     "builds": [{
-        "config": { "runtime": "python3.6" }
+        "config": { "runtime": "python3.8" }
     }]
 }
 ```

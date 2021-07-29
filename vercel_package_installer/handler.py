@@ -131,12 +131,10 @@ def vercel_handler(event, context):
     wsgi_app_name = wsgi_app_data[-1]
     try:
         wsgi_module = import_module(wsgi_module_name)
+        application = getattr(wsgi_module, wsgi_app_name)
+
     except Exception:
         return handler(traceback_app, event, context,
                        {'traceback': format_exc(), 'error': 'An error has occurred during app importing'})
-        application = getattr(wsgi_module, wsgi_app_name)
-    except Exception:
-        return handler(traceback_app, event, context,
-                       {'traceback': 'Change app name in vercel.json', 'error': 'Wrong application name'})
 
     return handler(application, event, context)

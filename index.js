@@ -10,6 +10,7 @@ const {
   pip,
   python,
   apt,
+  git,
 } = require('./build-utils');
 
 
@@ -26,7 +27,7 @@ exports.build = async ({ files, entrypoint, config }) => {
   );
   log.info(`Build AMI version: ${systemReleaseContents.trim()}`);
 
-  const runtime = config.runtime || 'python3.6';
+  const runtime = config.runtime || 'python3.8';
   python.validateRuntime(runtime);
   log.info(`Lambda runtime: ${runtime}`);
 
@@ -50,6 +51,8 @@ exports.build = async ({ files, entrypoint, config }) => {
 
   log.heading('Installing handler');
   await pip.install(pipPath, srcDir, __dirname);
+
+  if (config.includeSubmodules) await git.update(srcDir);
 
   log.heading('Running setup script');
   let setupPath = apt.findRequirements(entrypoint, files);
