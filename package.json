@@ -1,39 +1,39 @@
 {
-  "name": "@potatohd/vercel-package-installer1",
-  "version": "1.0.5-dev.6",
-  "description": "Linux package installer on Vercel",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PotatoHD404/vercel-package-installer.git"
-  },
-  "author": "PotatoHD404 <potatohd404@gmail.com>",
-  "license": "MIT",
-  "private": false,
-  "dependencies": {
-    "command-exists": "^1.2.9",
-    "execa": "^1.0.0",
-    "fs.promised": "^3.0.0",
-    "node-fetch": "^2.6.1"
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-config-prettier": "^4.3.0",
-    "eslint-plugin-import": "^2.22.0",
-    "pre-commit": "^1.2.2"
-  },
-  "bugs": {
-    "url": "https://github.com/PotatoHD404/vercel-package-installer/issues"
-  },
-  "homepage": "https://github.com/PotatoHD404/vercel-package-installer#readme",
-  "directories": {
-    "example": "example"
-  },
-  "keywords": [
-    "vercel",
-    "nodejs",
-    "python",
-    "django"
-  ]
+	"name": "@potatohd/vercel-package-installer1",
+	"version": "1.0.6-dev.20",
+	"description": "Linux package installer on Vercel",
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/PotatoHD404/vercel-package-installer.git"
+	},
+	"author": "PotatoHD404 <potatohd404@gmail.com>",
+	"license": "MIT",
+	"private": false,
+	"dependencies": {
+		"command-exists": "^1.2.9",
+		"execa": "^1.0.0",
+		"fs.promised": "^3.0.0",
+		"node-fetch": "^2.6.1"
+	},
+	"devDependencies": {
+		"eslint": "^5.16.0",
+		"eslint-config-airbnb-base": "^13.2.0",
+		"eslint-config-prettier": "^4.3.0",
+		"eslint-plugin-import": "^2.22.0",
+		"pre-commit": "^1.2.2"
+	},
+	"bugs": {
+		"url": "https://github.com/PotatoHD404/vercel-package-installer/issues"
+	},
+	"homepage": "https://github.com/PotatoHD404/vercel-package-installer#readme",
+	"directories": {
+		"example": "example"
+	},
+	"keywords": [
+		"vercel",
+		"nodejs",
+		"python",
+		"django"
+	]
 }

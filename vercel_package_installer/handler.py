@@ -73,14 +73,9 @@ def handler(app, lambda_event, context):
         'wsgi.multiprocess': False,
         'wsgi.multithread': False,
         'wsgi.run_once': False,
-        'wsgi.url_scheme': headers.get('scheme', 'https'),
+        'wsgi.url_scheme': headers.get('x-forwarded-proto', 'https'),
         'wsgi.version': (1, 0),
     }
-    environ['QUERY_STRING'] = unquote(
-        urlencode({
-            'request': environ,
-            'context': context
-        }))
 
     for key, value in environ.items():
         if isinstance(value, str):
@@ -91,7 +86,10 @@ def handler(app, lambda_event, context):
         if key not in ('HTTP_CONTENT_TYPE', 'HTTP_CONTENT_LENGTH'):
             environ[key] = value
 
-    response = Response.from_app(app, environ)
+    # response = Response.from_app(app, environ)
+
+    response = Response(f"{environ['wsgi.input'].read().decode('utf-8')=}\n\n\
+{context.__dict__=}")
 
     # Handle multi-value headers
     headers = {}
@@ -135,9 +133,14 @@ def vercel_handler(lambda_event, context):
     wsgi_app_data = os.environ.get('WSGI_APPLICATION').split('.')
     wsgi_module_name = '.'.join(wsgi_app_data[:-1])
     wsgi_app_name = wsgi_app_data[-1]
-    try:
-        wsgi_module = import_module(wsgi_module_name)
-        application = getattr(wsgi_module, wsgi_app_name)
-        return handler(application, lambda_event, context)
-    except Exception:
-        return error_handler(lambda_event, context)
+
+    wsgi_module = import_module(wsgi_module_name)
+    application = getattr(wsgi_module, wsgi_app_name)
+    return handler(application, lambda_event, context)
+
+    # try:
+    #     wsgi_module = import_module(wsgi_module_name)
+    #     application = getattr(wsgi_module, wsgi_app_name)
+    #     return handler(application, lambda_event, context)
+    # except Exception:
+    #     return error_handler(lambda_event, context)
