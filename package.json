@@ -1,6 +1,6 @@
 {
   "name": "@potatohd/vercel-package-installer1",
-  "version": "1.0.4-dev.2",
+  "version": "1.0.5-dev.6",
   "description": "Linux package installer on Vercel",
   "main": "index.js",
   "repository": {
@@ -29,9 +29,6 @@
   "homepage": "https://github.com/PotatoHD404/vercel-package-installer#readme",
   "directories": {
     "example": "example"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "vercel",

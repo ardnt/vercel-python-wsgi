@@ -19,5 +19,6 @@ setup(
     ],
     install_requires=[
         'Werkzeug>=2.0.1',
+        'Jinja2'
     ]
 )

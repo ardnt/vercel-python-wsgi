@@ -12,7 +12,8 @@ import logging
 from importlib import import_module
 import os
 import sys
-from traceback import format_exc
+
+from .exceprion_reporter import ExceptionReporter
 
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
@@ -57,24 +58,29 @@ def handler(app, lambda_event, context):
 
     environ = {
         'CONTENT_LENGTH': str(len(body)),
-        'CONTENT_TYPE': headers.get('Content-Type', ''),
+        'CONTENT_TYPE': headers.get('content-type', ''),
         'PATH_INFO': parsed_url.path,
         'QUERY_STRING': unquote(parsed_url.query),
         'REMOTE_ADDR': event.get('x-real-ip', ''),
-        'REQUEST_METHOD': event['method'],
+        'REQUEST_METHOD': event.get('method', 'GET'),
         'SCRIPT_NAME': '',
-        'SERVER_NAME': headers.get('Host', 'lambda'),
-        'SERVER_PORT': headers.get('X-Forwarded-Port', '80'),
-        'SERVER_PROTOCOL': 'HTTP/1.1',
+        'SERVER_NAME': headers.get('host', 'lambda'),
+        'SERVER_PORT': headers.get('x-forwarded-port', '443'),
+        'SERVER_PROTOCOL': 'HTTP/2',
         'event': lambda_event['body'],
         'wsgi.errors': sys.stderr,
         'wsgi.input': BytesIO(body),
         'wsgi.multiprocess': False,
         'wsgi.multithread': False,
         'wsgi.run_once': False,
-        'wsgi.url_scheme': headers.get('X-Forwarded-Proto', 'http'),
+        'wsgi.url_scheme': headers.get('scheme', 'https'),
         'wsgi.version': (1, 0),
     }
+    environ['QUERY_STRING'] = unquote(
+        urlencode({
+            'request': environ,
+            'context': context
+        }))
 
     for key, value in environ.items():
         if isinstance(value, str):
@@ -120,8 +126,9 @@ def handler(app, lambda_event, context):
 
 
 def error_handler(lambda_event, context):
-    return Response(ExceptionReporter(lambda_event, context).get_traceback_html(), mimetype='text/html')
-    
+    return Response(ExceptionReporter(lambda_event,
+                                      context).get_traceback_html(),
+                    mimetype='text/html')
 
 
 def vercel_handler(lambda_event, context):
