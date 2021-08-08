@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """Python WSGI AWS Lambda handler
 
 Inspired by Zappa and Serverless AWS handlers
@@ -14,7 +13,6 @@ from importlib import import_module
 import os
 import sys
 from traceback import format_exc
-from .app import application as traceback_app
 
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
@@ -44,8 +42,7 @@ TEXT_MIME_TYPES = [
 ]
 
 
-def handler(app, lambda_event, context, error=None):
-
+def handler(app, lambda_event, context):
     event = json.loads(lambda_event['body'])
     headers = Headers(event.get('headers', None))
     parsed_url = urlparse(event['path'])
@@ -78,9 +75,6 @@ def handler(app, lambda_event, context, error=None):
         'wsgi.url_scheme': headers.get('X-Forwarded-Proto', 'http'),
         'wsgi.version': (1, 0),
     }
-    if error:
-        environ['PATH_INFO'] = '/'
-        environ['QUERY_STRING'] = unquote(urlencode(error))
 
     for key, value in environ.items():
         if isinstance(value, str):
@@ -113,28 +107,30 @@ def handler(app, lambda_event, context, error=None):
 
     if response.data:
         mimetype = response.mimetype or 'text/plain'
-        if (
-            mimetype.startswith('text/') or mimetype in TEXT_MIME_TYPES
-        ) and not response.headers.get('Content-Encoding', ''):
+        if (mimetype.startswith('text/')
+                or mimetype in TEXT_MIME_TYPES) and not response.headers.get(
+                    'Content-Encoding', ''):
             returndict['body'] = response.get_data(as_text=True)
         else:
-            returndict['body'] = base64.b64encode(response.data)\
-                                       .decode('utf-8')
+            returndict['body'] = base64.b64encode(
+                response.data).decode('utf-8')
             returndict['encoding'] = 'base64'
 
     return returndict
 
 
-def vercel_handler(event, context):
+def error_handler(lambda_event, context):
+    return Response(ExceptionReporter(lambda_event, context).get_traceback_html(), mimetype='text/html')
+    
+
+
+def vercel_handler(lambda_event, context):
     wsgi_app_data = os.environ.get('WSGI_APPLICATION').split('.')
     wsgi_module_name = '.'.join(wsgi_app_data[:-1])
     wsgi_app_name = wsgi_app_data[-1]
     try:
         wsgi_module = import_module(wsgi_module_name)
         application = getattr(wsgi_module, wsgi_app_name)
-
+        return handler(application, lambda_event, context)
     except Exception:
-        return handler(traceback_app, event, context,
-                       {'traceback': format_exc(), 'error': 'An error has occurred during app importing'})
-
-    return handler(application, event, context)
+        return error_handler(lambda_event, context)

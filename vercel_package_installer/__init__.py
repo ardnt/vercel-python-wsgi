@@ -1,1 +1,1 @@
-from .handler import handler, vercel_handler # noqa
+from .handler import handler, vercel_handler  # noqa
