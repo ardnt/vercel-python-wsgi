@@ -1,8 +1,8 @@
 # vercel-package-installer
 *A Vercel builder for Python WSGI applications*
 
-[![NPM version](https://img.shields.io/npm/v/@potatohd/vercel-package-installer.svg)](https://www.npmjs.com/package/@potatohd/vercel-package-installer)
-[![License](https://img.shields.io/npm/l/@PotatoHD404/vercel-package-installer)](https://github.com/PotatoHD404/vercel-package-installer/blob/master/LICENSE)
+[![NPM version](https://img.shields.io/npm/v/@potatohd/vercel-package-installer1.svg)](https://www.npmjs.com/package/@potatohd/vercel-package-installer1)
+[![License](https://img.shields.io/npm/l/@PotatoHD404/vercel-package-installer)](https://github.com/PotatoHD404/vercel-package-installer/blob/dev/LICENSE.md)
 
 ## Quickstart
 
