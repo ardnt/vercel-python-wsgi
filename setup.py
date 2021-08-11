@@ -8,16 +8,17 @@ with open('package.json') as f:
     package_data = json.loads(f.read())
     version = package_data['version']
 
-
+# py-vercel
 """A barebones setup for tests
 """
 setup(
-    name='vercel-python-wsgi',
+    name='py-vercel',
     version=version,
     packages=[
-        'vercel_python_wsgi'
+        'pyvercel'
     ],
     install_requires=[
-        'Werkzeug==1.0.1',
+        'Werkzeug>=2.0.1',
+        'py-exceptions'
     ]
 )

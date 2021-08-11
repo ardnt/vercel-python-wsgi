@@ -4,17 +4,7 @@ const execa = require('execa');
 const log = require('./log');
 
 async function install(scriptPath) {
-  // log.subheading('Updating linux packages');
-  // log.info('Running "apt update"');
-  // try {
-  //   const ret = await execa('apt update -y', { shell: true, stdio: 'inherit' });
-  //   log.info(ret.stdout);
-  // } catch (err) {
-  //   log.error('Failed to run "apt update"');
-  //   throw err;
-  // }
-
-  log.subheading('Running setup script');
+  log.subheading('Running install script');
   log.info(`Running "bash ${scriptPath}"`);
   try {
     const ret = await execa('bash', [scriptPath]);
@@ -26,22 +16,22 @@ async function install(scriptPath) {
 }
 
 function findRequirements(entrypoint, files) {
-  log.subheading('Searching for "setup.sh"');
+  log.subheading('Searching for "install.sh"');
 
   const entryDirectory = path.dirname(entrypoint);
-  const requirementsTxt = path.join(entryDirectory, 'setup.sh');
+  const requirementsTxt = path.join(entryDirectory, 'install.sh');
 
   if (files[requirementsTxt]) {
-    log.info('Found local "setup.sh"');
+    log.info('Found local "install.sh"');
     return files[requirementsTxt].fsPath;
   }
 
-  if (files['setup.sh']) {
-    log.info('Found global "setup.sh"');
-    return files['setup.sh'].fsPath;
+  if (files['install.sh']) {
+    log.info('Found global "install.sh"');
+    return files['install.sh'].fsPath;
   }
 
-  log.info('No "setup.sh" found');
+  log.info('No "install.sh" found');
   return null;
 }
 
@@ -50,22 +40,22 @@ module.exports = {
 };
 
 function findPostRequirements(entrypoint, files) {
-  log.subheading('Searching for "post-setup.sh"');
+  log.subheading('Searching for "post-install.sh"');
 
   const entryDirectory = path.dirname(entrypoint);
-  const requirementsTxt = path.join(entryDirectory, 'post-setup.sh');
+  const requirementsTxt = path.join(entryDirectory, 'post-install.sh');
 
   if (files[requirementsTxt]) {
-    log.info('Found local "post-setup.sh"');
+    log.info('Found local "post-install.sh"');
     return files[requirementsTxt].fsPath;
   }
 
-  if (files['post-setup.sh']) {
-    log.info('Found global "post-setup.sh"');
-    return files['post-setup.sh'].fsPath;
+  if (files['post-install.sh']) {
+    log.info('Found global "post-install.sh"');
+    return files['post-install.sh'].fsPath;
   }
 
-  log.info('No "post-setup.sh" found');
+  log.info('No "post-install.sh" found');
   return null;
 }
 

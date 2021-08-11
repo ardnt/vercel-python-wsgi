@@ -1,31 +1,39 @@
 {
-  "name": "@ardnt/vercel-python-wsgi",
-  "version": "1.2.0",
-  "description": "Python builder for WSGI applications on Vercel",
-  "main": "index.js",
-  "repository": "https://github.com/ardnt/vercel-python-wsgi.git",
-  "author": "Ardent <ardnt@protonmail.com>",
-  "license": "MIT",
-  "private": false,
-  "dependencies": {
-    "command-exists": "^1.2.9",
-    "execa": "^1.0.0",
-    "fs.promised": "^3.0.0",
-    "node-fetch": "^2.6.1"
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-config-prettier": "^4.3.0",
-    "eslint-plugin-import": "^2.22.0",
-    "pre-commit": "^1.2.2"
-  },
-  "pre-commit": [
-    "lint",
-    "test"
-  ],
-  "scripts": {
-    "lint": "eslint . && flake8 .",
-    "test": "pytest ."
-  }
+	"name": "@potatohd/py-vercel",
+	"version": "1.0.0",
+	"description": "Linux package installer on Vercel",
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/PotatoHD404/py-vercel.git"
+	},
+	"author": "PotatoHD404 <potatohd404@gmail.com>",
+	"license": "MIT",
+	"private": false,
+	"dependencies": {
+		"command-exists": "^1.2.9",
+		"execa": "^1.0.0",
+		"fs.promised": "^3.0.0",
+		"node-fetch": "^2.6.1"
+	},
+	"devDependencies": {
+		"eslint": "^5.16.0",
+		"eslint-config-airbnb-base": "^13.2.0",
+		"eslint-config-prettier": "^4.3.0",
+		"eslint-plugin-import": "^2.22.0",
+		"pre-commit": "^1.2.2"
+	},
+	"bugs": {
+		"url": "https://github.com/PotatoHD404/py-vercel/issues"
+	},
+	"homepage": "https://github.com/PotatoHD404/py-vercel#readme",
+	"directories": {
+		"example": "example"
+	},
+	"keywords": [
+		"vercel",
+		"nodejs",
+		"python",
+		"django"
+	]
 }

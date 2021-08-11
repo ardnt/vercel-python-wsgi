@@ -1,6 +1,7 @@
 # Environment management
 .direnv/
 .envrc
+.vscode
 
 # Testing configuration
 .travis.yml

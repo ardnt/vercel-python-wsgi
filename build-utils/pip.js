@@ -12,6 +12,7 @@ async function install(pipPath, srcDir, ...args) {
   log.info(`Running "pip install -t ${srcDir} ${args.join(' ')}"`);
   try {
     const ret = await execa(pipPath, ['install', '-t', srcDir, ...args]);
+    await execa(pipPath, ['uninstall', 'dataclasses', '-y']);
     log.info(ret.stdout);
   } catch (err) {
     log.error(`Failed to run "pip install -t ${srcDir} ${args.join(' ')}"`);

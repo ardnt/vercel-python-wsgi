@@ -1,5 +1,8 @@
 node_modules/
 
-.DS_Store
-
 .vscode/
+.venv
+
+test.js
+
+.DS_Store

@@ -1,6 +1,8 @@
 {
-    "builds": [{
-        "src": "index.py",
-        "use": "@ardnt/vercel-python-wsgi"
-    }]
+    "builds": [
+        {
+            "src": "index.py",
+            "use": "@potatohd/py-vercel"
+        }
+    ]
 }
