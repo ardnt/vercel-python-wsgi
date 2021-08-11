@@ -1,14 +1,11 @@
-# vercel-package-installer
-*A Vercel builder for Python WSGI applications*
+# py-vercel [![NPM version](https://img.shields.io/npm/v/@potatohd/py-vercel.svg)](https://www.npmjs.com/package/@potatohd/py-vercel) [![License](https://img.shields.io/npm/l/@PotatoHD404/py-vercel)](https://github.com/PotatoHD404/py-vercel/blob/dev/LICENSE.md)
 
-[![NPM version](https://img.shields.io/npm/v/@potatohd/vercel-package-installer1.svg)](https://www.npmjs.com/package/@potatohd/vercel-package-installer1)
-[![License](https://img.shields.io/npm/l/@PotatoHD404/vercel-package-installer)](https://github.com/PotatoHD404/vercel-package-installer/blob/dev/LICENSE.md)
+## *A Vercel builder for Python WSGI applications*
 
 ## Quickstart
 
 If you have an existing WSGI app, getting this builder to work for you is a
 piece of 🍰!
-
 
 ### 1. Add a Vercel configuration
 
@@ -18,7 +15,7 @@ Add a `vercel.json` file to the root of your application:
 {
     "builds": [{
         "src": "index.py",
-        "use": "@potatohd/vercel-package-installer1",
+        "use": "@potatohd/py-vercel",
         "config": { "maxLambdaSize": "15mb" }
     }]
 }
@@ -29,13 +26,12 @@ This configuration is doing a few things in the `"builds"` part:
 1. `"src": "index.py"`
    This tells Now that there is one entrypoint to build for. `index.py` is a
    file we'll create shortly.
-2. `"use": "@potatohd/vercel-package-installer1"`
+2. `"use": "@potatohd/py-vercel"`
    Tell Now to use this builder when deploying your application
 3. `"config": { "maxLambdaSize": "15mb" }`
    Bump up the maximum size of the built application to accommodate some larger
    python WSGI libraries (like Django or Flask). This may not be necessary for
    you.
-
 
 ### 2. Add a Now entrypoint
 
@@ -57,18 +53,16 @@ If the WSGI instance isn't named `application` you can set the
 `wsgiApplicationName` configuration option to match your application's name (see
 the configuration section below).
 
-
-### 3. Deploy!
+### 3. Deploy
 
 That's it, you're ready to go:
 
-```
+```console
 $ vercel
 > Deploying python-wsgi-app
 ...
 > Success! Deployment ready [57s]
 ```
-
 
 ## Requirements
 
@@ -77,18 +71,17 @@ $ vercel
 Your project may optionally include a `apt-requirements.txt` file to declare any
 dependencies, e.g.:
 
-```
+```text
 # apt-requirements.txt
 mysql
 ```
-
 
 ### Python requirements
 
 Your project may optionally include a `requirements.txt` file to declare any
 dependencies, e.g.:
 
-```
+```text
 # requirements.txt
 Django >=2.2,<2.3
 ```
@@ -97,12 +90,12 @@ Be aware that the builder will install `Werkzeug` as a requirement of the
 handler. This can cause issues if your project requires a different version of
 `Werkzeug` than the handler.
 
-
 ## Configuration options
 
 ### `runtime`
 
 Select the lambda runtime. Defaults to `python3.8`.
+
 ```json
 {
     "builds": [{
@@ -111,11 +104,11 @@ Select the lambda runtime. Defaults to `python3.8`.
 }
 ```
 
-
 ### `wsgiApplicationName`
 
 Select the WSGI application to run from your entrypoint. Defaults to
 `application`.
+
 ```json
 {
     "builds": [{
@@ -124,7 +117,6 @@ Select the WSGI application to run from your entrypoint. Defaults to
 }
 ```
 
-
 ## Additional considerations
 
 ### Routing
@@ -132,11 +124,12 @@ Select the WSGI application to run from your entrypoint. Defaults to
 You'll likely want all requests arriving at your deployment url to be routed to
 your application. You can do this by adding a route rewrite to the Now
 configuration:
+
 ```json
 {
     "builds": [{
         "src": "index.py",
-        "use": "@potatohd/vercel-package-installer"
+        "use": "@potatohd/py-vercel"
     }],
     "routes" : [{
         "src" : "/(.*)", "dest":"/"
@@ -152,11 +145,12 @@ it through `index.py`.
 
 If your WSGI application lives in `vercel_app/wsgi.py` and is named `application`,
 then you can configure it as the entrypoint and adjust routes accordingly:
+
 ```json
 {
     "builds": [{
         "src": "vercel_app/wsgi.py",
-        "use": "@potatohd/vercel-package-installer"
+        "use": "@potatohd/py-vercel"
     }],
     "routes" : [{
         "src" : "/(.*)", "dest":"/vercel_app/wsgi.py"
@@ -172,7 +166,6 @@ implications on what libaries will be available to you, notably:
 - PostgreSQL, so psycopg2 won't work out of the box
 - MySQL, so MySQL adapters won't work out of the box either
 - Sqlite, so the built-in Sqlite adapter won't be available
-
 
 ## Attribution
 

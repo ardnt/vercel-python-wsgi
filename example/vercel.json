@@ -2,7 +2,7 @@
     "builds": [
         {
             "src": "index.py",
-            "use": "@potatohd/vercel-package-installer1"
+            "use": "@potatohd/py-vercel"
         }
     ]
 }

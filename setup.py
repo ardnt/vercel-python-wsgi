@@ -8,17 +8,17 @@ with open('package.json') as f:
     package_data = json.loads(f.read())
     version = package_data['version']
 
-# vercel-package-installer
+# py-vercel
 """A barebones setup for tests
 """
 setup(
-    name='vercel-package-installer',
+    name='py-vercel',
     version=version,
     packages=[
-        'vercel_package_installer'
+        'pyvercel'
     ],
     install_requires=[
         'Werkzeug>=2.0.1',
-        'Jinja2'
+        'py-exceptions'
     ]
 )
