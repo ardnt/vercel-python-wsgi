@@ -20,11 +20,7 @@ from werkzeug.wrappers import Response
 from io import BytesIO
 from werkzeug._internal import _wsgi_encoding_dance, _to_bytes
 
-if sys.version_info[0] < 3:
-    from urllib import unquote, urlencode
-    from urlparse import urlparse
-else:
-    from urllib.parse import urlparse, unquote, urlencode
+from urllib.parse import urlparse, unquote, urlencode
 
 # Set up logging
 root = logging.getLogger()
@@ -44,7 +40,7 @@ TEXT_MIME_TYPES = [
 ]
 
 
-def handler(app, lambda_event, context):
+def handler(app, lambda_event):
     event = json.loads(lambda_event['body'])
     headers = Headers(event.get('headers', None))
     parsed_url = urlparse(event['path'])
@@ -121,24 +117,12 @@ def handler(app, lambda_event, context):
     return returndict
 
 
-# def error_handler(lambda_event, context):
-#     return Response(ExceptionReporter(lambda_event,
-#                                       context).get_traceback_html(),
-#                     mimetype='text/html')
-
-@handle_exceptions(is_lambda=True)
-def vercel_handler(lambda_event, context):
+@handle_exceptions(is_lambda=True, exclude=8)
+def vercel_handler(lambda_event, _):
     wsgi_app_data = os.environ.get('WSGI_APPLICATION').split('.')
     wsgi_module_name = '.'.join(wsgi_app_data[:-1])
     wsgi_app_name = wsgi_app_data[-1]
 
     wsgi_module = import_module(wsgi_module_name)
     application = getattr(wsgi_module, wsgi_app_name)
-    return handler(application, lambda_event, context)
-
-# try:
-#     wsgi_module = import_module(wsgi_module_name)
-#     application = getattr(wsgi_module, wsgi_app_name)
-#     return handler(application, lambda_event, context)
-# except Exception:
-#     return error_handler(lambda_event, context)
+    return handler(application, lambda_event)
