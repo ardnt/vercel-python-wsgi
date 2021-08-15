@@ -1,6 +1,6 @@
 {
 	"name": "@potatohd/py-vercel",
-	"version": "1.0.0",
+	"version": "1.0.6",
 	"description": "Linux package installer on Vercel",
 	"main": "index.js",
 	"repository": {

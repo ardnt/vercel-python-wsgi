@@ -18,7 +18,7 @@ setup(
         'pyvercel'
     ],
     install_requires=[
-        'Werkzeug>=2.0.1',
+        'Werkzeug',
         'py-exceptions'
     ]
 )
