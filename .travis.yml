@@ -1,7 +1,6 @@
 language: python
 python:
-  - '2.7'
-  - '3.6'
+  - '3.9'
 install:
   - yarn --ignore-engines install
   - pip install -r requirements-test.txt
